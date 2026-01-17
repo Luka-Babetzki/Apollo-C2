@@ -1,16 +1,14 @@
 import socket
-import sys
 import threading
 
 def banner():
-    print('                       _ _          _____ ___   ')     
-    print('     /\               | | |        / ____|__ \  ')      
-    print('    /  \   _ __   ___ | | | ___   | |       ) | ')
-    print('   / /\ \ |  _ \ / _ \| | |/ _ \  | |      / /  ')
-    print('  / ____ \| |_) | (_) | | | (_) | | |____ / /_  ')
-    print(' /_/    \_\ .__/ \___/|_|_|\___/   \_____|____| ')
-    print('          | |                                   ')
-    print('          |_|               By Luka Babetzki    ')             
+    print('     ___                ____         _________   ')
+    print('    /   |  ____  ____  / / /___     / ____/__ \  ')
+    print('   / /| | / __ \/ __ \/ / / __ \   / /    __/ /  ')
+    print('  / ___ |/ /_/ / /_/ / / / /_/ /  / /___ / __/   ')
+    print(' /_/  |_/ .___/\____/_/_/\____/   \____//____/   ')
+    print('       /_/                                       ')
+    print('                                 By Luka Babetzki')
 
 
 def comm_in(targ_id):
@@ -40,7 +38,7 @@ def target_comm(targ_id):
                 break
             print(response)
 
-def listener_handler(host_ip, host_port, targets):
+def listener_handler(host_ip, host_port,target):
     sock.bind((host_ip, int(host_port)))
     print('[+] Awaiting connection from client...')
     sock.listen()
